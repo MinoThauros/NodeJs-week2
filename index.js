@@ -1,6 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
 //creates a new instance
 const assert= require('assert');
+const dboper= require('./operations');
+
 
 
 const url= 'mongodb://localhost:27017/';//from the started mongoDB
@@ -13,32 +15,30 @@ MongoClient.connect(url,(err, client)=>{
     console.log('Connected correctly to the server');
 
     const db=client.db(dbname);//connect to the desired database
-    const collection = db.collection('dishes');//connect to the desired collection
-    //use the commands use <databasename> and then show collection
-    //connect to a certain database then show the collections inside
-    //a nosql database is made out of documents->collections
 
-    collection.insertOne({
-        "name":"Herimino",
-        "Description":"Test"
-    }, (err,result)=>{//nested callback
-        assert.strictEqual(err,null);
+    const document1={
+        "name":"Vadonut",
+        "description":'Test_Document 1'
+    };
 
-        console.log('After insert: \n')
-        console.log(result.ops);//will show wat was inserted
+    const collection= 'dishes'
 
-        collection.find({}).toArray((err,docs)=>{
-            assert.strictEqual(err, null);
-            console.log('Found:\n');
-            console.log(docs);//a callback function directly manipulates a function's input
 
-            db.dropCollection('dishes', (err, result)=>{
-                assert.strictEqual(err, null);
-                client.close();
-            })
-        });//find({}) would return everything as quiery conditions weren't specified
-        //would put everything into a dictionary-like array
+    dboper.insertDocument(db, {
+        "name":"Vadonut",
+        "description":'Test_Document 1'
+    }, collection, (result)=>{
+        //implementation of the callback
+        console.log('Instert Document: \n' + result.ops)
     });
+
+    dboper.findDocuments(db,collection, (result)=>{
+        console.log(`Found Documents: \n ${result} `);
+        console.log(result);//returns all the content of the database
+    
+    });
+
+
 
 
 });
