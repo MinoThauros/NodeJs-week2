@@ -25,7 +25,7 @@ MongoClient.connect(url,(err, client)=>{
         assert.strictEqual(err,null);
 
         console.log('After insert: \n')
-        console.log(result.ops);//will show wat was instered
+        console.log(result.ops);//will show wat was inserted
 
         collection.find({}).toArray((err,docs)=>{
             assert.strictEqual(err, null);
