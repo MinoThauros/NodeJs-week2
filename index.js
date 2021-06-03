@@ -52,4 +52,5 @@ MongoClient.connect(url)
 //the .then design pattern allows to handle the return of previous function
 //effectively allowing sequencial algorithms
 //but preventing the callback hell
+//all the other
 
